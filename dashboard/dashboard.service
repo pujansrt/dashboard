@@ -1,0 +1,12 @@
+[Unit]
+Description=uWSGI instance to serve dashboard
+After=network.target
+
+[Service]
+User=vagrant
+Group=www-data
+WorkingDirectory=/home/vagrant/dashboard
+ExecStart=/home/vagrant/dashboard/run.sh
+
+[Install]
+WantedBy=multi-user.target

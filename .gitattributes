@@ -1,0 +1,5 @@
+static/* linguist-vendored
+*.js linguist-vendored=false
+*.css linguist-vendored=false
+*.html linguist-vendored=false
+*.js linguist-language=Python
