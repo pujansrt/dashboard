@@ -4,7 +4,7 @@ class init {
         ensure      => "directory",
         owner       => "vagrant",
         group       => "vagrant",
-        mode        => 750,
+        mode        => "750",
         source      => "/vagrant/dashboard",
         recurse     => "remote",
     }
@@ -13,7 +13,7 @@ class init {
         ensure      => "present",
         owner       => "root",
         group       => "root",
-        mode        => 750,
+        mode        => "750",
         source      => "/vagrant/dashboard/dashboard",
     }
 
@@ -21,7 +21,7 @@ class init {
         ensure      => "present",
         owner       => "root",
         group       => "root",
-        mode        => 750,
+        mode        => "750",
         source      => "/vagrant/dashboard/dashboard.conf",
     }
 
@@ -41,13 +41,6 @@ class init {
     file { '/etc/init.d/dashboard':
         ensure => 'link',
         target => '/etc/init/dashboard.conf',
-    }
-
-    exec { 'virtualenv':
-        command     => 'sudo pip install virtualenv',
-        path        => '/usr/local/bin/:/bin/:/usr/bin/',
-        user        => "root",
-        unless      => 'test -f /usr/local/bin/virtualenv'
     }
 
     exec { 'project_prepare':
