@@ -1,6 +1,6 @@
 ## Introduction
 
-<img src="00.gif" width="600">
+<img src="docs/00.gif" width="600">
 
 Dashboard has two parts - 
 
@@ -10,7 +10,7 @@ Dashboard has two parts -
 
 ## Architecture
 
-<img src="arch.png" width="400" align="right" vspace="10">
+<img src="docs/arch.png" width="400" align="right" vspace="10">
 
 System information computation is expensive. It becomes really cumbersome when large number of users fetch on-demand. 
 
