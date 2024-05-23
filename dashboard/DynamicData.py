@@ -10,7 +10,7 @@ class DynamicData(object):
         dc={};
         dc['total'] = vm.total
         dc['available'] = vm.available
-        dc['usage'] = vm.available*100/vm.total
+        dc['usage'] = round(vm.available*100/vm.total, 2)
         return dc
 
     def cpu_info(self):

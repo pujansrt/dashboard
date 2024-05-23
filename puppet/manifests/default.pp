@@ -17,14 +17,6 @@ class init {
         source      => "/vagrant/dashboard/dashboard",
     }
 
-    file { "/etc/init/dashboard.conf":
-        ensure      => "present",
-        owner       => "root",
-        group       => "root",
-        mode        => "750",
-        source      => "/vagrant/dashboard/dashboard.conf",
-    }
-
     file { '/etc/nginx/sites-enabled/dashboard':
         ensure => 'link',
         target => '/etc/nginx/sites-available/dashboard',
@@ -36,11 +28,6 @@ class init {
 
     file { "/etc/nginx/sites-enabled/default":
         ensure  => absent,
-    }
-
-    file { '/etc/init.d/dashboard':
-        ensure => 'link',
-        target => '/etc/init/dashboard.conf',
     }
 
     exec { 'project_prepare':
@@ -60,7 +47,7 @@ class run {
       enable  => true,
       hasrestart => true,
       hasstatus => true,
-      status => '/usr/sbin/service  nginx status | grep "running"'
+      status => '/usr/sbin/service nginx status | grep "running"'
     }
 
     service { "dashboard":
@@ -68,12 +55,43 @@ class run {
       enable  => true,
       hasrestart => true,
       hasstatus => true,
-      status => '/usr/sbin/service  dashboard status | grep "running"'
+      status => '/usr/sbin/service dashboard status | grep "running"'
     }
 }
+
+
+class dashboard_service {
+
+  file { '/etc/systemd/system/dashboard.service':
+    ensure  => file,
+    source  => '/home/vagrant/dashboard/dashboard.service',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Package['systemd'],
+  }
+
+  # Ensure the service is enabled and started
+  service { 'dashboard':
+    ensure    => running,
+    enable    => true,
+    provider  => 'systemd',
+    require   => File['/etc/systemd/system/dashboard.service'],
+  }
+
+  # Ensure systemd daemon is reloaded
+  exec { 'systemd-daemon-reload':
+    command     => '/bin/systemctl daemon-reload',
+    refreshonly => true,
+    subscribe   => File['/etc/systemd/system/dashboard.service'],
+  }
+}
+
 
 #include init
 include run
 
+# Apply the class
+include dashboard_service
 
 
