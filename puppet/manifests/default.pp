@@ -50,13 +50,13 @@ class run {
       status => '/usr/sbin/service nginx status | grep "running"'
     }
 
-    service { "dashboard":
-      ensure => running,
-      enable  => true,
-      hasrestart => true,
-      hasstatus => true,
-      status => '/usr/sbin/service dashboard status | grep "running"'
-    }
+      # Ensure the service is enabled and started
+  service { 'dashboard':
+    ensure    => running,
+    enable    => true,
+    provider  => 'systemd',
+    require   => File['/etc/systemd/system/dashboard.service'],
+  }
 }
 
 
@@ -67,17 +67,10 @@ class dashboard_service {
     source  => '/home/vagrant/dashboard/dashboard.service',
     owner   => 'root',
     group   => 'root',
-    mode    => '0644',
-    require => Package['systemd'],
+    mode    => '0644'
   }
 
-  # Ensure the service is enabled and started
-  service { 'dashboard':
-    ensure    => running,
-    enable    => true,
-    provider  => 'systemd',
-    require   => File['/etc/systemd/system/dashboard.service'],
-  }
+
 
   # Ensure systemd daemon is reloaded
   exec { 'systemd-daemon-reload':
