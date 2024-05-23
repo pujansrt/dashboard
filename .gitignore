@@ -1,0 +1,21 @@
+*.pyc
+.coverage
+.project
+.pydevproject
+.idea
+
+# tox testing
+.tox/
+
+.vagrant
+Vagrantfile
+!tests/vagrantfiles/**/Vagrantfile
+
+# Ingore python packaging files/dirs
+/build/
+/dist/
+/python_vagrant.egg-info/
+*.egg-info/
+*.box
+src/vagrant/_version.py
+coverage.xml
